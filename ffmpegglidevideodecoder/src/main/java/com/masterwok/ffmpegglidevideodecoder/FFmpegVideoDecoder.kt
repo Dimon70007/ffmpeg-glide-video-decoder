@@ -1,17 +1,23 @@
 package com.masterwok.ffmpegglidevideodecoder
 
+import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.preference.PreferenceActivity
 import android.util.Log
 import com.bumptech.glide.load.Option
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.ResourceDecoder
 import com.bumptech.glide.load.engine.Resource
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
+import com.bumptech.glide.load.model.Headers
 import com.bumptech.glide.load.resource.bitmap.BitmapResource
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import wseemann.media.FFmpegMediaMetadataRetriever
+import java.io.FileNotFoundException
+import java.io.IOException
+import kotlin.coroutines.experimental.coroutineContext
 
 
 /**
@@ -32,7 +38,7 @@ class FFmpegVideoDecoder constructor(
          */
         val PERCENTAGE_DURATION: Option<Float> = Option.memory(
                 "com.masterwok.ffmpegglidevideodecoder.PercentageDuration"
-                , 0.03F
+                , 0.0F
         )
 
         /**
@@ -40,17 +46,17 @@ class FFmpegVideoDecoder constructor(
          */
         val FRAME_AT_TIME: Option<Long> = Option.memory(
                 "com.masterwok.ffmpegglidevideodecoder.FrameAtTime"
-                , -1
+                , -1L
         )
     }
 
     private fun FFmpegMediaMetadataRetriever.decodeOriginalFrame(
             frameTimeMicros: Long
             , frameOption: Int
-    ): Bitmap? = getFrameAtTime(
-            frameTimeMicros
-            , frameOption
-    )
+    ): Bitmap?  = if (frameTimeMicros >= 0) getFrameAtTime(
+                frameTimeMicros
+                , frameOption
+                ) else getFrameAtTime()
 
     private fun FFmpegMediaMetadataRetriever.duration(): Long =
             extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
@@ -76,25 +82,35 @@ class FFmpegVideoDecoder constructor(
         val downSampleStrategy = options.get(DownsampleStrategy.OPTION)
                 ?: DownsampleStrategy.NONE
 
-        val bitmap: Bitmap?
-
         try {
-            retriever.setDataSource(source.toString())
-
-            bitmap = decodeFrame(
-                    retriever
-                    , if (frameAtTime >= 0) frameAtTime else retriever.percentagePosition(percentagePosition)
-                    , FFmpegMediaMetadataRetriever.OPTION_CLOSEST_SYNC
-                    , outWidth
-                    , outHeight
-                    , downSampleStrategy
-            )
-
-        } finally {
+            Log.e(javaClass.name, source.toString())
+            synchronized(this) {
+                setSource(retriever,source)
+                val bitmap: Bitmap? = decodeFrame(
+                        retriever
+                        , if (percentagePosition > 0.0) retriever.percentagePosition(percentagePosition) else frameAtTime
+                        , FFmpegMediaMetadataRetriever.OPTION_CLOSEST_SYNC
+                        , outWidth
+                        , outHeight
+                        , downSampleStrategy
+                )
+                retriever.release()
+                return BitmapResource.obtain(bitmap, bitmapPool)
+            }
+        } catch (e : ExceptionInInitializerError) {
+            Log.e(javaClass.name, " retriever failed ", e)
             retriever.release()
         }
+        return null;
 
-        return BitmapResource.obtain(bitmap, bitmapPool)
+    }
+    private fun setSource(retriever: FFmpegMediaMetadataRetriever, uri: Uri) {
+//			if (Build.VERSION.SDK_INT >= 14){
+//			      retriever.setDataSource(uri.toString(),HashMap<String,String>())
+//			} else {
+			      retriever.setDataSource(uri.toString())
+//			}
+
     }
 
     private fun decodeFrame(

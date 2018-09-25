@@ -2,4 +2,6 @@
     <string name="app_name">Demo FFmpeg Glide Video Decoder</string>
     <string name="title_activity_main">Demo</string>
     <string name="demo_image_view">Demo Image View</string>
+    <string name="btn_ok">Ok</string>
+    <string name="btn_cancel">Cancel</string>
 </resources>

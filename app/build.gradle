@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.masterwok.demoffmpegglidevideodecoder"
-        minSdkVersion 14
-        targetSdkVersion 27
+        minSdkVersion 16
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -58,7 +58,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "com.android.support:appcompat-v7:$version_support"
+    implementation "com.android.support:appcompat-v7:28.0.0"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$version_glide"
@@ -66,4 +66,7 @@ dependencies {
 
     // FFmpeg Glide Video Decoder
     implementation project(path: ':ffmpegglidevideodecoder')
+    compile('com.kishan.askpermission:askpermission:1.0.3', {
+        exclude group: 'com.android.support'
+    })
 }
