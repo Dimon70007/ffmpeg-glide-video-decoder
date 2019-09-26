@@ -28,7 +28,7 @@ android {
 }
 
 ext {
-    version_ffmpeg = '1.0.14'
+    version_ffmpeg = '1.0.17'
     version_glide = '4.7.1'
 }
 
