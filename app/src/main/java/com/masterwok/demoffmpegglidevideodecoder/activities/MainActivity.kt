@@ -1,5 +1,6 @@
 package com.masterwok.demoffmpegglidevideodecoder.activities
 
+import android.app.PendingIntent.getActivity
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -10,21 +11,29 @@ import com.bumptech.glide.request.RequestOptions
 import com.masterwok.demoffmpegglidevideodecoder.R
 import com.masterwok.demoffmpegglidevideodecoder.glide.GlideApp
 import com.masterwok.ffmpegglidevideodecoder.FFmpegVideoDecoder
+import java.util.*
+import kotlin.collections.ArrayList
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var linearLayoutRoot: LinearLayout
 
     // Place videos you'd like to test here..
-    private val videoLocations:Array<String> = resources.getStringArray(R.array.urls_array)
+    private var videoLocations:MutableList<String> = listOf<String>(1.toString(), 2.toString()) as MutableList<String>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         bindViewComponents()
+        videoLocations = resources.getStringArray(R.array.urls_array).toMutableList()
 
-        videoLocations.plus(resources.getStringArray(R.array.custom_urls_array)).forEach {
+//        videoLocations = videoLocations.plus().toMutableList()
+        videoLocations.forEach {
             val imageView = createImageView()
 
             loadImage(imageView, it)
@@ -55,7 +64,8 @@ class MainActivity : AppCompatActivity() {
                  set(FFmpegVideoDecoder.FRAME_AT_TIME, -1) // loadfirstframe
             })
             .load(Uri.parse(source))
-            .centerCrop()
+            .fitCenter()
+            .override(1280, 720)
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .skipMemoryCache(true)
             .into(imageView)

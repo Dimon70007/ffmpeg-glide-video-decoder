@@ -2,19 +2,21 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-
+def safeExtGet(prop, fallback) {
+    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
 android {
-    compileSdkVersion 28
+    compileSdkVersion safeExtGet('compileSdkVersion', 28)
 
 
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion safeExtGet('targetSdkVersion', 27)
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -30,6 +32,10 @@ android {
 ext {
     version_ffmpeg = '1.0.17'
     version_glide = '4.7.1'
+    libraries = [
+        ffmpegRetrieverCore         : safeExtGet('libraries.ffmpegRetrieverCore', project(":FFmpegMediaMetadataRetriever:core")),
+        ffmpegRetrieverBinaries         : safeExtGet('libraries.ffmpegRetrieverBinaries', project(":FFmpegMediaMetadataRetriever:binaries"))
+    ]
 }
 
 dependencies {

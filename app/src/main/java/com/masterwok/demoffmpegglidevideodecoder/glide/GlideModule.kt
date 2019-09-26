@@ -15,7 +15,7 @@ class GlideModule : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
 
-        registry.prepend(
+        registry.append(
                 Registry.BUCKET_BITMAP
                 , Uri::class.java
                 , Bitmap::class.java
