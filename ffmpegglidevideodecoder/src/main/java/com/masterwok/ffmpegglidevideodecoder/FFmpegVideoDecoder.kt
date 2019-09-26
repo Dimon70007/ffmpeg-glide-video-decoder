@@ -40,7 +40,7 @@ class FFmpegVideoDecoder constructor(
          */
         val FRAME_AT_TIME: Option<Long> = Option.memory(
                 "com.masterwok.ffmpegglidevideodecoder.FrameAtTime"
-                , -1
+                , -10
         )
     }
 
@@ -70,6 +70,7 @@ class FFmpegVideoDecoder constructor(
     override fun handles(source: Uri, options: Options): Boolean = true
 
     override fun decode(source: Uri, outWidth: Int, outHeight: Int, options: Options): Resource<Bitmap>? {
+
         val retriever = FFmpegMediaMetadataRetriever()
         val percentagePosition = options.get(PERCENTAGE_DURATION)!!
         val frameAtTime = options.get(FRAME_AT_TIME)!!
@@ -79,11 +80,12 @@ class FFmpegVideoDecoder constructor(
         val bitmap: Bitmap?
 
         try {
-            retriever.setDataSource(source.toString())
+            val src: String = source.toString()
+            retriever.setDataSource(src)
 
             bitmap = decodeFrame(
                     retriever
-                    , if (frameAtTime >= 0) frameAtTime else retriever.percentagePosition(percentagePosition)
+                    , if (frameAtTime > -10) frameAtTime else retriever.percentagePosition(percentagePosition)
                     , FFmpegMediaMetadataRetriever.OPTION_CLOSEST_SYNC
                     , outWidth
                     , outHeight
@@ -106,9 +108,9 @@ class FFmpegVideoDecoder constructor(
             , strategy: DownsampleStrategy
     ): Bitmap? {
         var result: Bitmap? = null
+        Log.d(Tag, String.format(">>> decodeFrame called with timeUs %d, outWidth %d, outHeight %d, strategy %s", timeUs, outWidth, outHeight, strategy.toString()))
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
-                && outWidth != com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
+        if (outWidth != com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
                 && outHeight != com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
                 && strategy != DownsampleStrategy.NONE
         ) {
