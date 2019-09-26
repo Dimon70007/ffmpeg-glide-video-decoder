@@ -16,15 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var linearLayoutRoot: LinearLayout
 
     // Place videos you'd like to test here..
-    private val videoLocations = arrayOf(
-            "http://mirrors.standaloneinstaller.com/video-sample/jellyfish-25-mbps-hd-hevc.3gp"
-            , "http://mirrors.standaloneinstaller.com/video-sample/page18-movie-4.avi"
-            , "http://mirrors.standaloneinstaller.com/video-sample/Panasonic_HDC_TM_700_P_50i.flv"
-            , "http://mirrors.standaloneinstaller.com/video-sample/DLP_PART_2_768k.m4v"
-            , "http://mirrors.standaloneinstaller.com/video-sample/star_trails.mkv"
-            , "http://mirrors.standaloneinstaller.com/video-sample/small.mts"
-            , "http://mirrors.standaloneinstaller.com/video-sample/metaxas-keller-Bell.vob"
-    )
+    private val videoLocations:Array<String> = resources.getStringArray(R.array.urls_array)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         bindViewComponents()
 
-        videoLocations.forEach {
+        videoLocations.plus(resources.getStringArray(R.array.custom_urls_array)).forEach {
             val imageView = createImageView()
 
             loadImage(imageView, it)
@@ -59,12 +51,12 @@ class MainActivity : AppCompatActivity() {
     ) = GlideApp
             .with(this)
             .applyDefaultRequestOptions(RequestOptions().apply {
-                set(FFmpegVideoDecoder.PERCENTAGE_DURATION, 0.03F)
-                // set(FFmpegVideoDecoder.FRAME_AT_TIME, 1000 * 1000 * 1) // One second
+//                set(FFmpegVideoDecoder.PERCENTAGE_DURATION, 0.03F)
+                 set(FFmpegVideoDecoder.FRAME_AT_TIME, -1) // loadfirstframe
             })
             .load(Uri.parse(source))
             .centerCrop()
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .skipMemoryCache(true)
             .into(imageView)
 

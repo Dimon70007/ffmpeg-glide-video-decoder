@@ -1,5 +1,18 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="InconsistentArrays">
     <string name="app_name">Demo FFmpeg Glide Video Decoder</string>
     <string name="title_activity_main">Demo</string>
     <string name="demo_image_view">Demo Image View</string>
+    <string-array
+        name="urls_array">
+        <item>http://mirrors.standaloneinstaller.com/video-sample/jellyfish-25-mbps-hd-hevc.3gp</item>
+        <item>http://mirrors.standaloneinstaller.com/video-sample/page18-movie-4.avi</item>
+        <item>http://mirrors.standaloneinstaller.com/video-sample/Panasonic_HDC_TM_700_P_50i.flv</item>
+        <item>http://mirrors.standaloneinstaller.com/video-sample/DLP_PART_2_768k.m4v</item>
+        <item>http://mirrors.standaloneinstaller.com/video-sample/star_trails.mkv</item>
+        <item>http://mirrors.standaloneinstaller.com/video-sample/small.mts</item>
+        <item>http://mirrors.standaloneinstaller.com/video-sample/metaxas-keller-Bell.vob</item>
+    </string-array>
+    <string-array
+        name="custom_urls_array" >
+    </string-array>
 </resources>
