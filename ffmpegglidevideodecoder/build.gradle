@@ -39,7 +39,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // FFmpegMediaMetadataRetriever
-    implementation "com.github.wseemann:FFmpegMediaMetadataRetriever:$version_ffmpeg"
+    implementation libraries.ffmpegRetrieverCore
+    implementation libraries.ffmpegRetrieverBinaries
+
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$version_glide"
