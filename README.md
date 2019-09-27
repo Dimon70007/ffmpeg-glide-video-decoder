@@ -4,7 +4,7 @@ A [Glide](https://github.com/bumptech/glide) resource decoder powered by [FFmpeg
 
 ## Usage
 
-Within your derived ```AppGlideModule``` class register the decoder. For example:
+Within your derived ```AppGlideModule``` or ```LibraryGlideModule``` class register the decoder. For example:
 
 ```kotlin
 @GlideModule()
@@ -38,24 +38,3 @@ class GlideModule : AppGlideModule() {
 ```
 
 Please refer to the demo application for a more complete example.
-
-## Configuration
-
-Add this in your root build.gradle at the end of repositories:
-```gradle
-allprojects {
-    repositories {
-        maven { url "https://jitpack.io" }
-    }
-}
-```
-and add the following in the dependent module:
-
-```gradle
-dependencies {
-    implementation 'com.github.masterwok:ffmpeg-glide-video-decoder:1.0.0'
-}
-```
-
-## Projects using ffmpeg-glide-video-decoder
-- [Bit Cast](https://play.google.com/store/apps/details?id=com.masterwok.bitcast)

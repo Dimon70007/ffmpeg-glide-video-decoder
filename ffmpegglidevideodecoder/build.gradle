@@ -32,10 +32,6 @@ android {
 ext {
     version_ffmpeg = '1.0.17'
     version_glide = '4.7.1'
-    libraries = [
-        ffmpegRetrieverCore         : safeExtGet('libraries.ffmpegRetrieverCore', project(":FFmpegMediaMetadataRetriever:core")),
-        ffmpegRetrieverBinaries         : safeExtGet('libraries.ffmpegRetrieverBinaries', project(":FFmpegMediaMetadataRetriever:binaries"))
-    ]
 }
 
 dependencies {
@@ -45,8 +41,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // FFmpegMediaMetadataRetriever
-    implementation libraries.ffmpegRetrieverCore
-    implementation libraries.ffmpegRetrieverBinaries
+    implementation project(":FFmpegMediaMetadataRetriever:core")
+    implementation project(":FFmpegMediaMetadataRetriever:binaries")
 
 
     // Glide

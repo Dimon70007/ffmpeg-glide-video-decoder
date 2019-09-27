@@ -1,4 +1,4 @@
-package com.masterwok.demoffmpegglidevideodecoder.activities
+package com.flussonic.demoffmpegglidevideodecoder.activities
 
 import android.app.PendingIntent.getActivity
 import android.net.Uri
@@ -8,9 +8,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.masterwok.demoffmpegglidevideodecoder.R
-import com.masterwok.demoffmpegglidevideodecoder.glide.GlideApp
-import com.masterwok.ffmpegglidevideodecoder.FFmpegVideoDecoder
+import com.flussonic.demoffmpegglidevideodecoder.R
+import com.flussonic.demoffmpegglidevideodecoder.glide.GlideApp
+import com.flussonic.ffmpegglidevideodecoder.FFmpegVideoDecoder
 import java.util.*
 import kotlin.collections.ArrayList
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T

@@ -1,4 +1,3 @@
-include ':app', ':ffmpegglidevideodecoder'
-//include ':FFmpegMediaMetadataRetriever:binaries', ':FFmpegMediaMetadataRetriever:core'
-//project(':FFmpegMediaMetadataRetriever:core').projectDir = new File('../FFmpegMediaMetadataRetriever/core')
-//project(':FFmpegMediaMetadataRetriever:binaries').projectDir = new File('../FFmpegMediaMetadataRetriever/binaries')
+include ':app', ':ffmpegglidevideodecoder', ':FFmpegMediaMetadataRetriever:binaries', ':FFmpegMediaMetadataRetriever:core'
+project(':FFmpegMediaMetadataRetriever:core').projectDir = new File('../FFmpegMediaMetadataRetriever/core')
+project(':FFmpegMediaMetadataRetriever:binaries').projectDir = new File('../FFmpegMediaMetadataRetriever/binaries')

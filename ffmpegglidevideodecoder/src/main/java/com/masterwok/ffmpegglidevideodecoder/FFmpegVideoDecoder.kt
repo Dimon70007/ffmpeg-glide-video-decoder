@@ -1,4 +1,4 @@
-package com.masterwok.ffmpegglidevideodecoder
+package com.flussonic.ffmpegglidevideodecoder
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -31,7 +31,7 @@ class FFmpegVideoDecoder constructor(
          * Get a frame for some time at a given percentage of the duration.
          */
         val PERCENTAGE_DURATION: Option<Float> = Option.memory(
-                "com.masterwok.ffmpegglidevideodecoder.PercentageDuration"
+                "com.flussonic.ffmpegglidevideodecoder.PercentageDuration"
                 , 0.03F
         )
 
@@ -39,7 +39,7 @@ class FFmpegVideoDecoder constructor(
          * Get a frame at some time (micro-seconds).
          */
         val FRAME_AT_TIME: Option<Long> = Option.memory(
-                "com.masterwok.ffmpegglidevideodecoder.FrameAtTime"
+                "com.flussonic.ffmpegglidevideodecoder.FrameAtTime"
                 , -10
         )
     }
